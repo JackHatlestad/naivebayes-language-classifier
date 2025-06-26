@@ -48,18 +48,18 @@ def shred(filename):
 
 def main():
     if len(sys.argv) != 2:
-        print("Usage: python3 hw2.py [letter file] [english prior] [spanish prior]")
+        print("Usage: python classifier.py [letter file]")
         return
 
-    letter_file = sys.argv[1]
+    text_file = sys.argv[1]
 
-    if not os.path.isfile(letter_file):
-        print(f"The Letter File isn't valid")
+    if not os.path.isfile(text_file):
+        print(f"Error: Can't find text file")
         return
 
     e, s = get_parameter_vectors()
 
-    X = shred(letter_file)
+    X = shred(text_file)
     X_counts = [X[char] for char in string.ascii_uppercase]
 
     F_english = math.log(0.5) 
@@ -86,4 +86,8 @@ def main():
 
     print("The probability that this text is English is: " + f"{p_english_given_X:.4f}" )
     print("The probability that this text is spanish is: " + f"{p_spanish_given_X:.4f}" )
+    if p_english_given_X >= 0.5:
+        print("The text was written in English.")
+    else:
+        print("The text was written in Spanish.")
 main()
